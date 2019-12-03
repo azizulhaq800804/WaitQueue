@@ -1,0 +1,13 @@
+{"timestamp":"2019-11-27T20:36:07.266Z","message":"http://192.168.100.5:5000/login","level":"info"}
+{"timestamp":"2019-11-27T20:36:07.268Z","message":{"firstParam":"yourValue","secondParam":"yourOtherValue"},"level":"info"}
+{"timestamp":"2019-11-27T21:14:07.050Z","message":"http://192.168.100.5:5000/login","level":"info"}
+{"timestamp":"2019-11-27T21:14:07.056Z","message":{"email":"","password":"$2a$10$W77ZGwlE/L//Ta0SkJp9/uTbe9nr9cTl.ttRqQKqv2K/iFY6NmSMa"},"level":"info"}
+{"timestamp":"2019-11-27T21:19:22.182Z","message":"http://192.168.100.5:5000/login","level":"info"}
+{"timestamp":"2019-11-27T21:19:22.184Z","message":{"email":"","password":"$2a$10$evWRgvUAwX2wtYtQt28dJOlh/DQ.91UkYJlCx23tlGT/rJqepfBlS"},"level":"info"}
+{"timestamp":"2019-11-27T21:19:22.276Z","code":"ER_ACCESS_DENIED_ERROR","errno":1045,"sqlMessage":"Access denied for user 'waitqueue'@'localhost' (using password: YES)","sqlState":"28000","fatal":true,"level":"error"}
+{"timestamp":"2019-11-27T21:55:26.424Z","message":"http://192.168.100.5:5000/login","level":"info"}
+{"timestamp":"2019-11-27T21:55:26.424Z","message":{"email":"","password":"$2a$10$h4UgmVxFm3.c2noDTdeuwOzvUKKCZ.gj34sE6/4A30.LeOQcvgBQC"},"level":"info"}
+{"timestamp":"2019-11-27T21:55:26.510Z","code":"ER_ACCESS_DENIED_ERROR","errno":1045,"sqlMessage":"Access denied for user 'waitqueue'@'localhost' (using password: YES)","sqlState":"28000","fatal":true,"level":"error"}
+{"timestamp":"2019-11-27T22:11:39.165Z","message":"http://192.168.100.5:5000/login","level":"info"}
+{"timestamp":"2019-11-27T22:11:39.168Z","message":{"email":"Ghjj","password":"$2a$10$QzMsK.C9l/oEUyIG3rVtIejoB8KDEd92Zd27wh00Xd2D4WUnYo/Cu"},"level":"info"}
+{"timestamp":"2019-11-27T22:11:39.263Z","code":"ER_BAD_FIELD_ERROR","errno":1054,"sqlMessage":"Unknown column 'password' in 'where clause'","sqlState":"42S22","index":0,"sql":"SELECT * FROM user WHERE email='Ghjj' AND password='$2b$10$23eoP8zcFkxveB8CY4Qgqe9nK.bNnhHTdU3uotYbd0nzbXzzVIJly' ","level":"error"}

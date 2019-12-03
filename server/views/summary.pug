@@ -1,0 +1,48 @@
+extends layout.pug
+block content
+  style.
+    div.content{
+      font-size:20px;
+    }
+    table{
+    font-family:"Courier New", Courier, monospace; font-size:80%';
+    }
+
+  div.top
+   
+  div.container
+    div.content
+      table
+       thead
+         tr
+           th Summary <br/>from  #{params.fromDate} <br/> to #{params.toDate}
+           
+       tbody
+         for row in data
+           tr
+             td  <br/>
+           tr
+             td #{row.serviceName}
+           tr
+             td ----------------------------------
+          
+           tr
+             td Total Count: #{row.count}  
+           tr
+             td TXN Amount: #{row.txnAmt}.00
+           tr
+             td Commmission: #{row.txnFee}.00
+           tr
+             td Recharge Amount: #{row.rechargeAmt}.00
+           tr
+             td Deposit Amount: #{row.depositAmt}.00  
+           tr
+             td Negative Amount #{row.negAmt}.00  
+           
+      br    
+      
+      p  Total Payable: #{payable}
+      p  Total Receivable:  #{receivable}
+      div.footer
+
+  

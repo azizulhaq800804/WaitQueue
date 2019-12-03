@@ -1,0 +1,19 @@
+extends layout.pug
+block content
+  div.top.center(style="text-align:center;")
+    form.form-horizontal(method="post", id="dateform" action='get_txns_bydate')
+      label From Date:
+      input.span3(id="fromDate", type="text",  name="fromDate", placeholder="Enter From Date")
+      label To Date:
+      input.span3(id="toDate", type="text", name="toDate" placeholder="Enter To Date") 
+      br
+      br
+      input.form-control(id="op_code" type="hidden" name="op_code" value=data.op_code)
+      input.btn(type="submit", value="Submit")
+  script.
+    $( function() {
+      alert("test");
+      $( "#fromDate" ).datepicker().datepicker('show');
+      $( "#toDate" ).datepicker();
+      
+    });  

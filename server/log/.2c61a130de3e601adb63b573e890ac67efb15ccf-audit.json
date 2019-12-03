@@ -1,0 +1,49 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 50
+    },
+    "auditLog": "/users/test/Documents/WaitQueueManagement/server/log/.2c61a130de3e601adb63b573e890ac67efb15ccf-audit.json",
+    "files": [
+        {
+            "date": 1574688084208,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-11-25",
+            "hash": "6379ca3aea511e554a30d33d0553b0b4"
+        },
+        {
+            "date": 1574776704935,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-11-26",
+            "hash": "b620fc243297ad50d029b8efec60f93a"
+        },
+        {
+            "date": 1574863837982,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-11-27",
+            "hash": "0ec17f81de3f9eb7f20686eec99985b1"
+        },
+        {
+            "date": 1575019927949,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-11-29",
+            "hash": "ed822988c41b863459f7a02697cadd40"
+        },
+        {
+            "date": 1575101028275,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-11-30",
+            "hash": "65ed6de346d31316b0adba2cc89820c5"
+        },
+        {
+            "date": 1575196503475,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-12-01",
+            "hash": "d6e86093190e9595fbe0dd51d3173453"
+        },
+        {
+            "date": 1575292021604,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-12-02",
+            "hash": "84dd577b3b6d8a32c8388869eec48947"
+        },
+        {
+            "date": 1575343763165,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue.log.2019-12-03",
+            "hash": "4a1033bec99d11140f5a5e96cfebdf41"
+        }
+    ]
+}

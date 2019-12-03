@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/idms/share/TOM-Txn-Manager/
+pm2 start server.js --log log/pm2.log --time
+exit 0 

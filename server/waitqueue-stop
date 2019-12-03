@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /home/idms/share/TOM-Txn-Manager/
+pm2 stop server.js

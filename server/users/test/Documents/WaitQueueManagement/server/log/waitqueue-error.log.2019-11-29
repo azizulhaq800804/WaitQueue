@@ -1,0 +1,1 @@
+{"timestamp":"2019-11-29T20:24:15.529Z","code":"ER_BAD_NULL_ERROR","errno":1048,"sqlMessage":"Column 'phone_number' cannot be null","sqlState":"23000","index":0,"sql":"INSERT INTO user (name, email, password, phone_number,sex)  VALUES('','','$2b$10$K4VFJkGAU8N5WVBx2OPRv.kQu2uF8.LjPYSIfmnZjJSxxPHfqPSj.',NULL,0)","level":"error"}

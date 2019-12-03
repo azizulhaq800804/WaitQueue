@@ -1,0 +1,37 @@
+{"timestamp":"2019-11-29T15:33:45.327Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:33:45.329Z","message":{"email":"","password":"$2a$10$hoPXw6lGKNYkI8rFnJe4vuVkn.wZAtQVOadztLUA/rAb0KVjxTsAW"},"level":"info"}
+{"timestamp":"2019-11-29T15:33:45.422Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$zqvDpat5H7iQpwjg.HeU2ufSWN2YfX0Qjwq15QinyIrXk/ga8rg/K' ","level":"info"}
+{"timestamp":"2019-11-29T15:35:27.929Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:35:27.930Z","message":{"email":"","password":"$2a$10$gwZ5wx0qzpDCigtOZKqoJuwXKdYvp6gVQYTMe4Hm8uhdEBRS2vW8W"},"level":"info"}
+{"timestamp":"2019-11-29T15:35:28.016Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$dJ5OkjE5KNzZmWeNj/cQqu6T2FNjTKvjqF/BxmlTFsIh4rSVZscx.' ","level":"info"}
+{"timestamp":"2019-11-29T15:37:17.242Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:37:17.242Z","message":{"email":"","password":"$2a$10$CZ3dVG8G/3ndXNZ6AaroV.Cm9ypJJNv5iSaQ/tCNQIF2s.g9h1/sG"},"level":"info"}
+{"timestamp":"2019-11-29T15:37:17.327Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$B5/EAhjHvPSJQbTVDDz.kezskavmMU4nb1iO.1SkIGA2qhtkzYPXO' ","level":"info"}
+{"timestamp":"2019-11-29T15:38:29.522Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:38:29.522Z","message":{"email":"","password":"$2a$10$FuWPMWCVcV.w9X84Dg6.7O2O0GYFDmG/d2do4hsEhNRUIvYAZsThG"},"level":"info"}
+{"timestamp":"2019-11-29T15:38:29.608Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$spbwi0ztcwQcwhNcokhADue5DqeIN3MXe.rkXhyCIVK4x.IxHSQbi' ","level":"info"}
+{"timestamp":"2019-11-29T15:41:06.943Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:41:06.943Z","message":{"email":"","password":"$2a$10$YJUJtHunxw4SffsdVWV/huj1aC4e2MAARy3c8SjOPF47mJAclBwW2"},"level":"info"}
+{"timestamp":"2019-11-29T15:41:07.028Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$.iyCQbqzKz.elDqNGKVwl.Gcez8uq8UEmZopfIvTF.oOFLgYvAVfu' ","level":"info"}
+{"timestamp":"2019-11-29T15:41:57.551Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:41:57.554Z","message":{"email":"","password":"$2a$10$6MtCqlDCZMAjJC3ONCC/2uzaUWPU7BCQmW8oOC5ehU6qGyL/.xaIa"},"level":"info"}
+{"timestamp":"2019-11-29T15:41:57.643Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$ZiogPLd9oTAcIUYjzQt/CeakV5eqe7NFwOvpLXJTnTFKpBkiVn5l6' ","level":"info"}
+{"timestamp":"2019-11-29T15:43:16.382Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T15:43:16.383Z","message":{"email":"","password":"$2a$10$kgcmJ4hSzouZqTrxHTPn3uA6Ws68CGr8z17vSXPGOoxrmuwcArbBG"},"level":"info"}
+{"timestamp":"2019-11-29T15:43:16.468Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$jH9F0B0A8BcSH1fU/pPI.OLuc4Zs2ALOD.EUjNLRFnrMUhpPvZ3b.' ","level":"info"}
+{"timestamp":"2019-11-29T16:12:10.964Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T16:12:10.964Z","message":{"email":"","password":"$2a$10$hTyryiPoolW9m63M3RIS6uUXOSitUXLCjfV6UzP6/6ZS13jXQssAW"},"level":"info"}
+{"timestamp":"2019-11-29T16:12:11.049Z","message":"SELECT * FROM user WHERE email='' AND password='$2b$10$zYk.R3D4rmkDv.4pIfB1vOvtf1bWQYXeV8TDYtxK6x6LKzsAy16/S' ","level":"info"}
+{"timestamp":"2019-11-29T16:21:51.050Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T16:21:51.050Z","message":{"email":"Abcd","password":"$2a$10$UCgHqgrcdfIvYwizjt.iZePCaCMmBwauJOBr6RrE7YGP5RTEBmum."},"level":"info"}
+{"timestamp":"2019-11-29T16:21:51.135Z","message":"SELECT * FROM user WHERE email='Abcd' AND password='$2b$10$GZAWjtwMYGD8DnDVdOb3FuJ/RvQsEpCnNR41.gf2aZYndKOoBrqc2' ","level":"info"}
+{"timestamp":"2019-11-29T16:37:12.864Z","message":"http://192.168.100.7:5000/login","level":"info"}
+{"timestamp":"2019-11-29T16:37:12.865Z","message":{"email":"mdazizulhaq77@gmail.com","password":"$2a$10$Y2H.AHxAd4xZKfaOKnfB2uzn/NKNlWsr6zwUTx27OI4NaTNCw.jI."},"level":"info"}
+{"timestamp":"2019-11-29T16:37:12.950Z","message":"SELECT * FROM user WHERE email='mdazizulhaq77@gmail.com' AND password='$2b$10$oM3L1j98YrtRBX62cAvOB.26ie0mZIpCWeQ/ZNAoi0wzySxvNCbPC' ","level":"info"}
+{"timestamp":"2019-11-29T20:19:39.568Z","message":"http://192.168.100.7:5000/signup","level":"info"}
+{"timestamp":"2019-11-29T20:19:39.571Z","message":{"name":"","email":"","password":"","sex":0},"level":"info"}
+{"timestamp":"2019-11-29T20:23:30.987Z","message":"http://192.168.100.7:5000/signup","level":"info"}
+{"timestamp":"2019-11-29T20:23:30.989Z","message":{"name":"","email":"","password":"","sex":0},"level":"info"}
+{"timestamp":"2019-11-29T20:24:15.431Z","message":"http://192.168.100.7:5000/signup","level":"info"}
+{"timestamp":"2019-11-29T20:24:15.433Z","message":{"name":"","email":"","password":"","sex":0},"level":"info"}
+{"timestamp":"2019-11-29T20:24:15.529Z","code":"ER_BAD_NULL_ERROR","errno":1048,"sqlMessage":"Column 'phone_number' cannot be null","sqlState":"23000","index":0,"sql":"INSERT INTO user (name, email, password, phone_number,sex)  VALUES('','','$2b$10$K4VFJkGAU8N5WVBx2OPRv.kQu2uF8.LjPYSIfmnZjJSxxPHfqPSj.',NULL,0)","level":"error"}

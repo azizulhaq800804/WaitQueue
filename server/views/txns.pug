@@ -1,0 +1,49 @@
+extends layout.pug
+block content
+
+  style.
+    div.content{
+      font-size:20px;
+    }
+    table{
+    font-family:"Courier New", Courier, monospace; font-size:80%';
+    } 
+  
+  div.top
+  div.container
+    div.content
+      table.table.table-striped
+       thead
+         tr
+           th ID
+           th LocalID
+           th Time
+           th Status
+           th ServiceID
+           th Amount
+           th Fee
+           th Deposit
+           th Negative Amount
+           th TXN Data
+           th PacketNo
+           th CreateBy
+           th ProcessUnfinishedFlag
+       tbody
+         for row in data
+           tr
+             td #{row.id}
+             td #{row.local_id}
+             td(nowrap) #{row.dateTime}
+             td #{row.status}
+             td #{row.serviceID}
+             td #{row.txnAmt}
+             td #{row.txnFee}
+             td #{row.depositAmt}
+             td #{row.negAmt}
+             td #{row.txnData}
+             td #{row.packetNo}
+             td #{row.createdBy} 
+             td #{row.processUnfinishedFlag} 
+  div.footer
+
+  

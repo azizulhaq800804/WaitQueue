@@ -1,0 +1,24 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 50
+    },
+    "auditLog": "/users/test/Documents/WaitQueueManagement/server/log/.62681228f52e9531e1d8673ea1e7be3b990ac1fa-audit.json",
+    "files": [
+        {
+            "date": 1575196503478,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue-error.log.2019-12-01",
+            "hash": "02ed6db553a00cfc5a11fbcf463c08fa"
+        },
+        {
+            "date": 1575292021606,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue-error.log.2019-12-02",
+            "hash": "fa9fc4e178eee08807be8be5a92a68f0"
+        },
+        {
+            "date": 1575343763176,
+            "name": "/users/test/Documents/WaitQueueManagement/server/log/waitqueue-error.log.2019-12-03",
+            "hash": "22ff39b6e6091b9bbe43062d07c0dc7d"
+        }
+    ]
+}
