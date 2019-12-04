@@ -24,5 +24,6 @@ Category.getAll=(result)=>{
         }  
 
       })
-
 }
+
+module.exports = Category

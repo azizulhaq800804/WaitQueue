@@ -26,3 +26,5 @@ City.getAll=(result)=>{
       })
 
 }
+
+module.exports = City

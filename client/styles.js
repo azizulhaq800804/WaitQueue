@@ -5,6 +5,10 @@ export const styles = StyleSheet.create({
    justifyContent: 'center',
    
   },
+  scrollViewContainer:{
+    flex:1
+
+  },
   buttonContainer: {
     margin: 10
   },
@@ -53,5 +57,10 @@ export const styles = StyleSheet.create({
     fontSize:15,
     color:'red'
   },
+
+  picker:{
+    height:50,
+    width:250
+  }
 
   });

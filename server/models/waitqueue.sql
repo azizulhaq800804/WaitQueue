@@ -47,6 +47,12 @@ CREATE TABLE category
 
 CREATE INDEX idx_category on category(name);
 
+INSERT INTO category VALUES(1, 'Dental');
+INSERT INTO category VALUES(2, 'General Medicine');
+INSERT INTO category VALUES(3, 'Skin Specialists');
+
+
+
 DROP TABLE IF EXISTS country;
 
 CREATE TABLE country
@@ -57,6 +63,12 @@ CREATE TABLE country
         );
 
 CREATE INDEX idx_country on category(name);
+INSERT INTO country VALUES(1, 'Bangladesh');
+INSERT INTO country VALUES(2, 'India');
+INSERT INTO country VALUES(3, 'Pakistan');
+INSERT INTO country VALUES(4, 'Srilanka');
+INSERT INTO country VALUES(5, 'Nepal');
+INSERT INTO country VALUES(6, 'Bhutan');
 
 DROP TABLE IF EXISTS city;
 
@@ -69,6 +81,17 @@ CREATE TABLE city
         );
 
 CREATE INDEX idx_city on category(name);
+
+INSERT INTO `city` (`id`, `country_id`, `name`) VALUES
+(1, 1, 'Dhaka'),
+(2, 1, 'Comilla'),
+(3, 1, 'Narayanganj'),
+(4, 1, 'Dhaka'),
+(5, 1, 'Barisal'),
+(6, 1, 'Khulna'),
+(7, 1, 'Rajshahi');
+
+
 
 DROP TABLE IF EXISTS chamber;
 
@@ -86,7 +109,7 @@ CREATE TABLE chamber
               start_time VARCHAR(50) NOT NULL,
               end_time VARCHAR(50) NOT NULL,
               holiday VARCHAR(10) NOT NULL,
-              picture_url VARCHAR(200) NOT NULL,
+              picture_url VARCHAR(200),
               number_of_person INT DEFAULT 0,
               createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
               updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,

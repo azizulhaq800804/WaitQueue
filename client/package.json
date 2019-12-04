@@ -14,6 +14,7 @@
   "dependencies": {
     "@expo/samples": "~3.0.3",
     "@expo/vector-icons": "^10.0.3",
+    "@react-native-community/datetimepicker": "^2.1.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^35.0.0",
     "expo-asset": "^7.0.0",
@@ -26,6 +27,7 @@
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-bcrypt": "^2.4.0",
+    "react-native-datepicker": "^1.7.2",
     "react-native-element": "^1.2.1",
     "react-native-elements": "^1.2.7",
     "react-native-form-validator": "^0.3.2",

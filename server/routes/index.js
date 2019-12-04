@@ -43,8 +43,8 @@ router.route('/addchamber').post(formidable(),jwtvalidator, upload.single('pictu
   }
 )
 
-router.get('/cats_cities', function(req, res){
-  chamberController.cats_cities(req, res);
+router.get('/cats_cities_countries', function(req, res){
+  chamberController.cats_cities_countries(req, res);
 
 })
 router.post('/updateroom', function (req, res) {

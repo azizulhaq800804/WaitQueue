@@ -1,13 +1,21 @@
 var Communication = function(){}
 
 const objectConstructor = ({}).constructor;
-Communication.get= async(url, callback)=>{
+Communication.get= async(url, token, callback)=>{
+  
   try {
-    let response = await fetch('url');
+    let response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + token 
+          }
+    });
     let result = await response.json();
     callback(null, result);
     // do something with result
   } catch(e) {
+    console.log(e)
     callback(e, null);
   
   }
