@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   row:{
-    margin: 10,
+    margin: 0,
     flexDirection: 'row'
   },
   column: {

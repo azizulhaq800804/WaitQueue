@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View,TextInput, TouchableOpacity, Picker, platform, ScrollView } from 'react-native';
+import { Button, View,TextInput, TouchableOpacity, Picker, platform, ScrollView, Image } from 'react-native';
 import { Input, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../styles'
@@ -9,6 +9,10 @@ import {Storage} from "../components/storage"
 import {Communication} from "../components/communication"
 import FormData from 'form-data'
 import MyDatePicker from '../components/myDatePicker'
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
 export default class AddChamberScreen extends Component {
   
   constructor(props) {
@@ -22,20 +26,28 @@ export default class AddChamberScreen extends Component {
   state ={screenName:"ADD_CHAMBER", response:"", name:"", 
           doctor_name:"", user:{}, category:1, 
           categories:[], city:1,cities:[], country:1, countries:[],
-          phone_number:"", address:"", starttime: "", endtime: "", 
-          start_time:"", end_time:"", holiday:""
+          phone_number:"", address:"", start_time: "", end_time: "", 
+          start_time:"", end_time:"", holiday:"", image:null
         }
 
   submit(){
     
     
     let data = new FormData();
-    data.append("name", this.state.name);
-    data.append("doctor_name", this.state.doctor_name);
+    // data.append("name", this.state.name);
+    // data.append("doctor_name", this.state.doctor_name);
+
+    Object.entries(this.state).map(([key, value])=>{
+        if ( value.constructor !== ([]).constructor)
+           data.append(key, value)
+    })
+
 
     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_ADD_CHAMBER
     console.log(url)
     let {user} = this.state
+    console.log(user)
+
     Communication.post(url, data, user.access_token, (error, response)=>{
 
       if(error) 
@@ -69,6 +81,7 @@ export default class AddChamberScreen extends Component {
 
   componentDidMount(){
     //this.email.focus();
+    this.getPermissionAsync();
   }
 
   componentWillMount(){
@@ -105,7 +118,6 @@ export default class AddChamberScreen extends Component {
     const name = event.target && event.target.name;
     const value = event.target && event.target.value;
     this.setState({[name]: value});
-    console.log(this.state)
   }
 
   handleChangeText(text = {}) {
@@ -115,18 +127,59 @@ export default class AddChamberScreen extends Component {
 
   onStartDateChange(time)
   {
-    this.setState({starttime:time})
+    this.setState({start_time:time})
 
   }
 
   onEndDateChange(time)
   {
-    this.setState({endtime:time})
+    this.setState({end_time:time})
   }
 
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  }
+
+  _pickImageCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
   
+   _pickImageGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
+
   render() {
-   
+      
+      let { image } = this.state;
+
       return (
         <ScrollView style={styles.scrollViewContainer}> 
           <View style={styles.column}>
@@ -138,7 +191,7 @@ export default class AddChamberScreen extends Component {
             <Input autoFocus
               ref={(input) => { this.email = input; }}
               placeholder='Name'
-              leftIcon={{ type: 'font-awesome', name: 'hospital-o' }}
+              leftIcon={{ type: 'font-awesome', name: 'hospital-o'  }}
               onChangeText={(text)=>this.handleChangeText({name:text})}
               value={this.state.name}
               name="name"
@@ -218,6 +271,49 @@ export default class AddChamberScreen extends Component {
               <Text style={styles.label}>End Time</Text>
              <MyDatePicker onDateChange={this.onEndDateChange}/>
             </View> 
+
+            <Text style={styles.label}>Holiday</Text>
+             <Picker
+              selectedValue={this.state.holiday}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>{
+                this.setState({holiday: itemValue})
+              }
+              }>
+              
+                 <Picker.Item  label="Friday" value="Friday" />
+                 <Picker.Item  label="Saturday" value="Saturday" />
+                 <Picker.Item  label="Sunday" value="Sunday" />
+                 <Picker.Item  label="Monday" value="Monday" />
+                 <Picker.Item  label="Tuesday" value="Tuesday" />
+                 <Picker.Item  label="Wednesday" value="Wednesday" />
+                 <Picker.Item  label="Thursday" value="Thursday" />
+
+             </Picker>
+
+            <Text style={styles.label}>Pick Photo</Text>
+
+            <View style={styles.row}>
+              
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="Camera"
+                  onPress={this._pickImageCamera}
+                />
+              </View>
+              
+              <View style={styles.buttonContainer}>
+              <Button
+                  title="Gallery"
+                  onPress={this._pickImageGallery}
+                />
+              </View>
+             </View>
+
+            {image &&
+            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    
+
 
              <Text style={styles.error} >{this.state.response}</Text>
             <View style={styles.buttonContainer}>
