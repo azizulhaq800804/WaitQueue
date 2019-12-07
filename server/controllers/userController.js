@@ -69,7 +69,8 @@ exports.signup = function(req, res) {
         }
         else{
           console.log('res', result);
-          res.json({result:1, userid:result.insertId, username:req.body.name, message:"Signup Successful", code:0});
+          const token = jwtvalidator.sign({username:req.body.name});
+          res.json({result:1, userid:result.insertId, username:req.body.name, token:token, message:"Signup Successful", code:0});
          }  
       });
     }

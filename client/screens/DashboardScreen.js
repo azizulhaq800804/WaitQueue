@@ -3,6 +3,8 @@ import { Button, View, Text } from 'react-native';
 import CreateRoom from '../components/CreateRoom'
 import {styles} from '../styles'
 import {Storage} from '../components/storage'
+import { NavigationEvents } from 'react-navigation';
+
 export default class DashboardScreen extends Component {
 
   constructor(props)
@@ -35,15 +37,24 @@ export default class DashboardScreen extends Component {
   }
 
 
+  
   componentDidMount()
   {
+    this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+        this.forceUpdate();
+      }
+    );
     
   }
 
+  
   componentWillMount()
   {
     if( !this.state.isLoggedin)
-    
+    { 
+      alert("Not logged. Retrieving async storage")
       Storage.retrieveData('user', (err, value)=>{
         if(err)
         {  //this.setState({errormessage:"Error retrieving local storage data"})
@@ -58,6 +69,7 @@ export default class DashboardScreen extends Component {
             this.props.navigation.navigate('Login')   
         }
       })
+    }
   }
 
 
@@ -68,7 +80,7 @@ export default class DashboardScreen extends Component {
         this.setState({errormessage:"Error removing local storage data"})
       else 
         { 
-          // this.setState({isLoggedin:false})
+          this.setState({isLoggedin:false})
           this.props.navigation.navigate('Login')
         }
       })
@@ -80,7 +92,10 @@ export default class DashboardScreen extends Component {
     let {navigation} = this.props;
     return ( 
         <View style={styles.container}>
-
+          <NavigationEvents
+                onDidFocus={() => alert("test")}
+          />
+          
           <Text style={styles.error}>{this.state.errormessage}</Text>
           <View style={styles.buttonContainer}>
             <Button

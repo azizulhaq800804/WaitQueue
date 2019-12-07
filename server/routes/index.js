@@ -15,7 +15,7 @@ router.use(function timeLog (req, res, next) {
   console.log(req.params)
   log.info(fullUrl)
   log.info(req.body)
-  log.info(req.fields)
+  // log.info(req.fields)
   console.log('Time: ', Date.now())
   next()
 })
@@ -36,9 +36,8 @@ router.route('/userrooms').post(jwtvalidator,function(req,res)
   res.send("Validator test")
 })
 
-router.route('/addchamber').post(formidable(),jwtvalidator, upload.single('picture'), 
+router.route('/addchamber').post(jwtvalidator, 
   function (req, res) {
-    console.log(req.fields)
     chamberController.add_chamber(req, res);
   }
 )

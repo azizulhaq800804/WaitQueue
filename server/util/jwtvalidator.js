@@ -1,13 +1,10 @@
 const jwt = require('jsonwebtoken');
 const options = {
-        expiresIn: '2d',
+        expiresIn: '1d',
         issuer: 'https://waitqueue.com.bd'
       };
 module.exports = {
   validateToken: (req, res, next) => {
-    console.log(req.fields)
-    console.log(req.headers)
-    
     const authorizationHeaader = req.headers.authorization;
     let result;
     if (authorizationHeaader) {

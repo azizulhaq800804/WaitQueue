@@ -57,7 +57,7 @@ export default class SignUPScreen extends ValidationComponent {
         console.log(response)
         if(response.result == 1)
         {  
-          let user = {userid:response.userid, username:response.username}
+          let user = {userid:response.userid, username:response.username, access_token:response.token}
           Storage.storeData("user", user, (error)=>
           {
             if(error)
@@ -129,7 +129,7 @@ export default class SignUPScreen extends ValidationComponent {
               value={this.state.name}
               name="name"
             />
-            {this.isFieldInError('name') && this.getErrorsInField('name').map(errorMessage => <Text style={styles.error}>{errorMessage}</Text>) }
+            {this.isFieldInError('name') && this.getErrorsInField('name').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
             <Input
               ref={(input) => { this.email = input; }}
               placeholder='Email'
@@ -138,7 +138,7 @@ export default class SignUPScreen extends ValidationComponent {
               value={this.state.email}
               name="email"
             />
-            {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.error}>{errorMessage}</Text>) }
+            {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
 
             <Input
               placeholder='Phone Number'
@@ -147,7 +147,7 @@ export default class SignUPScreen extends ValidationComponent {
               value={this.state.phoneNumber}
 
             />
-             {this.isFieldInError('phoneNumber') && this.getErrorsInField('phoneNumber').map(errorMessage => <Text style={styles.error}>{errorMessage}</Text>) }
+             {this.isFieldInError('phoneNumber') && this.getErrorsInField('phoneNumber').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
 
             <Input
               placeholder='Password'
@@ -157,7 +157,7 @@ export default class SignUPScreen extends ValidationComponent {
               value={this.state.password}
               name="password"
             />
-             {this.isFieldInError('password') && this.getErrorsInField('password').map(errorMessage => <Text style={styles.error}>{errorMessage}</Text>) }
+             {this.isFieldInError('password') && this.getErrorsInField('password').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
 
             <ButtonGroup
               onPress={this.updateSexIndex}

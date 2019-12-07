@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View,TextInput, TouchableOpacity, Picker, platform, ScrollView, Image } from 'react-native';
+import { Button, View,TextInput, TouchableOpacity, Picker, Platform, ScrollView, Image } from 'react-native';
 import { Input, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../styles'
@@ -27,7 +27,7 @@ export default class AddChamberScreen extends Component {
           doctor_name:"", user:{}, category:1, 
           categories:[], city:1,cities:[], country:1, countries:[],
           phone_number:"", address:"", start_time: "", end_time: "", 
-          start_time:"", end_time:"", holiday:"", image:null
+          start_time:"9:00", end_time:"21:00", holiday:1, image:null, user_id:-1
         }
 
   submit(){
@@ -37,27 +37,35 @@ export default class AddChamberScreen extends Component {
     // data.append("name", this.state.name);
     // data.append("doctor_name", this.state.doctor_name);
 
+    
     Object.entries(this.state).map(([key, value])=>{
-        if ( value.constructor !== ([]).constructor)
-           data.append(key, value)
+        if ( value && value.constructor !== ([]).constructor 
+            && value.constructor !== ({}).constructor )
+        { 
+          data.append(`${key}`, value)
+    
+        }
     })
-
+  
+    // Not sure why this is not working
+    //type field in image picker is 'image'
+    // data.append('image',{...this.state.image})
+    if(this.state.image)
+      data.append('photo',{name:"photo", type:'image/jpg', uri:this.state.image.uri})
 
     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_ADD_CHAMBER
     console.log(url)
     let {user} = this.state
-    console.log(user)
 
-    Communication.post(url, data, user.access_token, (error, response)=>{
-
+    Communication.postForm(url, data, {}, user.access_token, (error, response)=>{;
       if(error) 
-      {  this.setState({response:"Network Request Failed."})
-         console.log(this.state)
+      { 
+        this.setState({response:"Network Request Failed."})
       }
       else
       {
-        console.log("Response Received for login")
-        console.log(response)
+        console.log("Response Received for Signup")
+        
         if(response.result == 1)
         {  
           console.log(response)
@@ -67,11 +75,9 @@ export default class AddChamberScreen extends Component {
           this.setState({response:response.message})
           
         }  
-
       }  
-
-
     })
+
 
   }
 
@@ -86,11 +92,11 @@ export default class AddChamberScreen extends Component {
 
   componentWillMount(){
 
-    this.setState({user:this.props.navigation.getParam("user", null)})
+    let user = this.props.navigation.getParam("user", null);
+    this.setState({user:user, user_id:user.userid})
     // Retrive initial data at once
     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
     console.log(url)
-    let {user} = this.state
     Communication.get(url, user.access_token, (error, response)=>{
       if (error)
         this.setState({response:"Failed to retrieve data during initialization"})
@@ -155,8 +161,12 @@ export default class AddChamberScreen extends Component {
 
     console.log(result);
 
+    let filename = result.uri.split('/').pop()
+    let match = /\.(.+)$/.exec(filename);
+    let type = match[0]? `image/${match[1]}`:'image'
+
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: {name: filename, type:type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
     }
   };
   
@@ -169,9 +179,12 @@ export default class AddChamberScreen extends Component {
     });
 
     console.log(result);
+     let filename = result.uri.split('/').pop()
+    let match = /\.(.+)$/.exec(filename);
+    let type = match[0]? `image/${match[1]}`:'image'
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: {type:result.type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
     }
   };
 
@@ -191,6 +204,7 @@ export default class AddChamberScreen extends Component {
             <Input autoFocus
               ref={(input) => { this.email = input; }}
               placeholder='Name'
+              leftIconContainerStyle = {{marginLeft:-3}}
               leftIcon={{ type: 'font-awesome', name: 'hospital-o'  }}
               onChangeText={(text)=>this.handleChangeText({name:text})}
               value={this.state.name}
@@ -200,6 +214,7 @@ export default class AddChamberScreen extends Component {
             </Text>
             <Input
               placeholder='Doctor Name'
+              leftIconContainerStyle = {{marginLeft:-3}}
               leftIcon={{ type: 'font-awesome', name: 'id-card' }}
               onChangeText={(text)=>this.handleChangeText({doctor_name:text})}
               value={this.state.doctor_name}
@@ -251,7 +266,7 @@ export default class AddChamberScreen extends Component {
 
              <Text style={styles.label}>Country</Text>
              <Picker
-              selectedValue={this.state.city}
+              selectedValue={this.state.country}
               style={styles.picker}
               onValueChange={(itemValue, itemIndex) =>{
                 this.setState({country: itemValue})
@@ -311,7 +326,7 @@ export default class AddChamberScreen extends Component {
              </View>
 
             {image &&
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
     
 
 
