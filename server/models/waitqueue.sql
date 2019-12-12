@@ -110,6 +110,7 @@ CREATE TABLE chamber
               end_time VARCHAR(50) NOT NULL,
               holiday VARCHAR(10) NOT NULL,
               picture_url VARCHAR(200),
+              thumbnail VARCHAR(200),
               number_of_person INT DEFAULT 0,
               createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
               updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,

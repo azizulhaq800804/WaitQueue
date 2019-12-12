@@ -80,7 +80,7 @@ const request = async ({url, method = 'GET', params, body, responseType = 'json'
         xhr.open(method, url, true);
         xhr.withCredentials = true;
         xhr.responseType = {json: 'text'}[responseType]||responseType;
-        xhr.onload = ()=>{ console.log("Resolved"); console.log(xhr);resolve({statusCode: xhr.status, request: xhr})};
+        xhr.onload = ()=>{ console.log("Resolved"); resolve({statusCode: xhr.status, request: xhr})};
         xhr.onerror = ()=>{ console.log("Error");reject(new TypeError('Network request failed'))};
         xhr.ontimeout = ()=>{console.log("Timeout");reject(new TypeError('Network request timed out'))};
         for (let key in headers)
@@ -112,6 +112,7 @@ const request = async ({url, method = 'GET', params, body, responseType = 'json'
   catch(err)
   {
        console.log("test")
+       console.log(err)
        callback(err, null)   
   }
 

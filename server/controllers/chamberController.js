@@ -9,12 +9,13 @@ const multer = require('multer')
 var formidable = require('formidable');
 var fs = require('fs');
 var log = require('../logger.js').LOG
-
+var gm = require('gm').subClass({imageMagick: true})
 exports.add_chamber = function(req, res)
 {
   
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
+	console.log(files)  
     if(err)
 	{ 
 	  	console.log(err)
@@ -33,22 +34,35 @@ exports.add_chamber = function(req, res)
       //let err = rename(oldpath,newpath)
       //console.log(err)
       //return
+	  var appRoot = process.cwd();
 
-      fs.rename(oldpath, newpath, function (err) {
+      fs.rename(oldpath,  newpath, function (err) {
         if (err)
         {   	
           console.log(err)
 	      log.error(err) 
 	  	  res.json({result:0, message:"Failed to add chamber", code:0});
 	    }
-	    
-      	chamberModel.addChamber(picture_name, fields, (err, result)=>{
-	      if(err)
-	        res.json({result:0, message:"Failed to add chamber", code:0});
-	      else
-	        res.json({result:1, data:result, message:"Chamber Added", code:0}); 
-	    })		
-      })
+		
+		console.log("Generating thumbnail..")
+		gm(newpath)
+		  .resize(100, 100)
+		  .noProfile()
+		  .write( newpath+"_thumb", function (err) {
+  			if (!err)
+			{ chamberModel.addChamber(picture_name, picture_name + "_thumb", fields, (err, result)=>{
+				if(err)
+					res.json({result:0, message:"Failed to add chamber", code:0});
+				else
+					res.json({result:1, data:result, message:"Chamber Added", code:0}); 
+				})	
+			}
+			else
+			res.json({result:0, message:"Failed to add chamber", code:0});	
+		});
+
+		
+	  })
     }        
    
     else{
@@ -90,4 +104,20 @@ exports.cats_cities_countries = function(req, res)
 	}
   })
 }
+
+
+exports.searchchamber = function(req, res)
+{
+   console.log(req.query)
+   chamberModel.searchChamber(req.query, (err, data)=>{
+	
+    if(err)
+	  res.json({result:0, message:"Failed to retrieve chambers", code:0});
+	else
+	  res.json({result:1, data: data, code:0}); 	
+
+  })
+	
+}
+
 

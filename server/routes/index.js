@@ -46,6 +46,12 @@ router.get('/cats_cities_countries', function(req, res){
   chamberController.cats_cities_countries(req, res);
 
 })
+router.get('/searchchamber', function(req, res){
+  chamberController.searchchamber(req, res);
+
+})
+
+
 router.post('/updateroom', function (req, res) {
   adminController.update_room(req, res);
 })

@@ -11,6 +11,5 @@ module.exports = {
     EMAIL_PASSWORD : 'xxxxx',
     logLevel:'info',
     saltRounds:10,
-    uploadPath:'/users/test/Documents/WaitQueue/server/uploads/'
-
+    uploadPath:'/users/test/Documents/WaitQueue/server/public/uploads/'
 };

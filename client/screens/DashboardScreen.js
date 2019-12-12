@@ -14,7 +14,7 @@ export default class DashboardScreen extends Component {
 
   }
   
-  state ={screenName:"Dashboard", isLoggedin:false, errormessage:"", user:{}}
+  state ={screenName:"Dashboard", isLoggedin:false, errormessage:"", user:{}, message:""}
 
 
   _onPressButton() {
@@ -50,11 +50,18 @@ export default class DashboardScreen extends Component {
   }
 
   
-  componentWillMount()
+  navigationFocus(payload)
   {
+    
+    let message = this.props.navigation.getParam('message', "")
+    this.setState({message})
+  
+    // back button fix
+    this.props.navigation.setParams({message: ""})
+   
     if( !this.state.isLoggedin)
     { 
-      alert("Not logged. Retrieving async storage")
+      alert("Not logged in . Retrieving async storage")
       Storage.retrieveData('user', (err, value)=>{
         if(err)
         {  //this.setState({errormessage:"Error retrieving local storage data"})
@@ -65,6 +72,33 @@ export default class DashboardScreen extends Component {
           console.log(value) 
           if(value)
             this.setState({isLoggedin:true, user:value})
+          else
+            this.props.navigation.navigate('Login')   
+        }
+      })
+    }
+  }
+
+  componentWillMount()
+  {
+    
+    console.log("Test mount")
+
+    if( !this.state.isLoggedin)
+    { 
+      
+      Storage.retrieveData('user', (err, value)=>{
+        if(err)
+        {  //this.setState({errormessage:"Error retrieving local storage data"})
+           this.props.navigation.navigate('Login')
+        }
+        else
+        { 
+          console.log(value) 
+          if(value)
+          {  this.setState({isLoggedin:true, user:value})
+             console.log("Set state")
+          }
           else
             this.props.navigation.navigate('Login')   
         }
@@ -93,13 +127,13 @@ export default class DashboardScreen extends Component {
     return ( 
         <View style={styles.container}>
           <NavigationEvents
-                onDidFocus={() => alert("test")}
+                onDidFocus={(payload) => this.navigationFocus(payload)}
           />
-          
+          <Text style={styles.label}>{this.state.message}</Text>
           <Text style={styles.error}>{this.state.errormessage}</Text>
           <View style={styles.buttonContainer}>
             <Button
-              onPress={()=>navigation.navigate('AddChamber', {user:this.state.user})}
+              onPress={()=>{navigation.navigate('AddChamber', {user:this.state.user});}}
               title="Add Chamber"
             />
            </View> 

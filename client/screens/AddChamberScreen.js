@@ -12,8 +12,11 @@ import MyDatePicker from '../components/myDatePicker'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import { NavigationEvents } from 'react-navigation';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class AddChamberScreen extends Component {
+
+export default class AddChamberScreen extends ValidationComponent {
   
   constructor(props) {
     super(props);
@@ -24,7 +27,7 @@ export default class AddChamberScreen extends Component {
   }
  
   state ={screenName:"ADD_CHAMBER", response:"", name:"", 
-          doctor_name:"", user:{}, category:1, 
+          doctor_name:"", user:null, category:1, 
           categories:[], city:1,cities:[], country:1, countries:[],
           phone_number:"", address:"", start_time: "", end_time: "", 
           start_time:"9:00", end_time:"21:00", holiday:1, image:null, user_id:-1
@@ -32,7 +35,18 @@ export default class AddChamberScreen extends Component {
 
   submit(){
     
-    
+    this.validate({
+      doctor_name: { required: true},
+      name: { required: true},
+      phone_number: {numbers: true, required: true}
+      
+    });
+
+    if( !this.isFormValid() )
+      return;
+
+
+
     let data = new FormData();
     // data.append("name", this.state.name);
     // data.append("doctor_name", this.state.doctor_name);
@@ -64,11 +78,11 @@ export default class AddChamberScreen extends Component {
       }
       else
       {
-        console.log("Response Received for Signup")
+        console.log("Response Received for AddChamber")
         
         if(response.result == 1)
         {  
-          console.log(response)
+          this.props.navigation.navigate('Dashboard', {message:"Chamber Added"})
         }
         else
         {
@@ -90,10 +104,17 @@ export default class AddChamberScreen extends Component {
     this.getPermissionAsync();
   }
 
+  navigationFocus(payload)
+  {
+
+  }
+
   componentWillMount(){
 
+    
     let user = this.props.navigation.getParam("user", null);
     this.setState({user:user, user_id:user.userid})
+   
     // Retrive initial data at once
     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
     console.log(url)
@@ -152,40 +173,50 @@ export default class AddChamberScreen extends Component {
   }
 
   _pickImageCamera = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
+    try{  
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      });
 
-    console.log(result);
+      console.log(result);
 
-    let filename = result.uri.split('/').pop()
-    let match = /\.(.+)$/.exec(filename);
-    let type = match[0]? `image/${match[1]}`:'image'
+      let filename = result.uri.split('/').pop()
+      let match = /\.(.+)$/.exec(filename);
+      let type = match[0]? `image/${match[1]}`:'image'
 
-    if (!result.cancelled) {
-      this.setState({ image: {name: filename, type:type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
+      if (!result.cancelled) {
+        this.setState({ image: {name: filename, type:type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
+      }
     }
+    catch(err){console.log(err)}
   };
   
    _pickImageGallery = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
+    
+    try{
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      });
 
-    console.log(result);
-     let filename = result.uri.split('/').pop()
-    let match = /\.(.+)$/.exec(filename);
-    let type = match[0]? `image/${match[1]}`:'image'
+      console.log(result);
+      let filename = result.uri.split('/').pop()
+      let match = /\.(.+)$/.exec(filename);
+      let type = match[0]? `image/${match[1]}`:'image'
 
-    if (!result.cancelled) {
-      this.setState({ image: {type:result.type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
-    }
+      if (!result.cancelled) {
+        this.setState({ image: {name: filename, type:type, uri:Platform.OS === "android" ? result.uri : result.uri.replace("file://", "") }});
+      }
+    }  
+    catch(err){
+      console.log(err)
+    }  
+  
   };
 
 
@@ -195,6 +226,9 @@ export default class AddChamberScreen extends Component {
 
       return (
         <ScrollView style={styles.scrollViewContainer}> 
+          <NavigationEvents
+                onDidFocus={(payload) => this.navigationFocus(payload)}
+          /> 
           <View style={styles.column}>
             <Text h2> Add Chamber</Text>
            
@@ -210,6 +244,8 @@ export default class AddChamberScreen extends Component {
               value={this.state.name}
               name="name"
             />
+            {this.isFieldInError('name') && this.getErrorsInField('name').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
+           
             <Text style={styles.label}>Doctor Name
             </Text>
             <Input
@@ -220,6 +256,8 @@ export default class AddChamberScreen extends Component {
               value={this.state.doctor_name}
             />
 
+            {this.isFieldInError('doctor_name') && this.getErrorsInField('doctor_name').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
+           
             <Text style={styles.label}>Category</Text>
             <Picker
               selectedValue={this.state.category}
@@ -241,6 +279,8 @@ export default class AddChamberScreen extends Component {
               onChangeText={(text)=>this.handleChangeText({phone_number:text})}
               value={this.state.phone_number}
             />
+            {this.isFieldInError('phone_number') && this.getErrorsInField('phone_number').map(errorMessage => <Text key={errorMessage} style={styles.error}>{errorMessage}</Text>) }
+           
 
             <Text style={styles.label}>Address</Text>
 
