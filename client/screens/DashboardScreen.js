@@ -40,13 +40,34 @@ export default class DashboardScreen extends Component {
   
   componentDidMount()
   {
-    this.props.navigation.addListener(
-      'didFocus',
-      payload => {
-        this.forceUpdate();
-      }
-    );
-    
+    // this.props.navigation.addListener(
+    //   'didFocus',
+    //   payload => {
+    //     this.forceUpdate();
+    //   }
+    // );
+    console.log("Test mount")
+    if( !this.state.isLoggedin)
+    { 
+     
+      Storage.retrieveData('user', (err, value)=>{
+        if(err)
+        {  //this.setState({errormessage:"Error retrieving local storage data"})
+           this.props.navigation.navigate('Login')
+        }
+        else
+        { 
+          console.log(value) 
+          if(value)
+          {  this.setState({isLoggedin:true, user:value})
+             console.log("Set state")
+          }
+          else
+            this.props.navigation.navigate('Login')   
+        }
+      })
+    }  
+  
   }
 
   
@@ -82,28 +103,28 @@ export default class DashboardScreen extends Component {
   componentWillMount()
   {
     
-    console.log("Test mount")
+    // console.log("Test mount")
 
-    if( !this.state.isLoggedin)
-    { 
+    // if( !this.state.isLoggedin)
+    // { 
       
-      Storage.retrieveData('user', (err, value)=>{
-        if(err)
-        {  //this.setState({errormessage:"Error retrieving local storage data"})
-           this.props.navigation.navigate('Login')
-        }
-        else
-        { 
-          console.log(value) 
-          if(value)
-          {  this.setState({isLoggedin:true, user:value})
-             console.log("Set state")
-          }
-          else
-            this.props.navigation.navigate('Login')   
-        }
-      })
-    }
+    //   Storage.retrieveData('user', (err, value)=>{
+    //     if(err)
+    //     {  //this.setState({errormessage:"Error retrieving local storage data"})
+    //        this.props.navigation.navigate('Login')
+    //     }
+    //     else
+    //     { 
+    //       console.log(value) 
+    //       if(value)
+    //       {  this.setState({isLoggedin:true, user:value})
+    //          console.log("Set state")
+    //       }
+    //       else
+    //         this.props.navigation.navigate('Login')   
+    //     }
+    //   })
+    // }
   }
 
 

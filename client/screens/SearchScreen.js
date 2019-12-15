@@ -33,22 +33,24 @@ class SearchScreen extends Component {
 
   componentWillMount()
   {
-    // Retrive initial data at once
-    let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
-    console.log(url)
-    Communication.get(url, "", (error, response)=>{
-      if (error)
-        this.setState({response:"Failed to retrieve data during initialization"})
-      else
-      {
-        this.setState({categories:response.categories})
-      }  
-    })  
+   
 
   }
 
   componentDidMount() {
     
+     // Retrive initial data at once
+     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
+     console.log(url)
+     Communication.get(url, "", (error, response)=>{
+       if (error)
+         this.setState({response:"Failed to retrieve data during initialization"})
+       else
+       {
+         this.setState({categories:response.categories})
+       }  
+     })  
+
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',

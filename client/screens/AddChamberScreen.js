@@ -102,6 +102,30 @@ export default class AddChamberScreen extends ValidationComponent {
 
   componentDidMount(){
     //this.email.focus();
+    let user = this.props.navigation.getParam("user", null);
+    this.setState({user:user, user_id:user.userid})
+   
+    // Retrive initial data at once
+    let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
+    console.log(url)
+    Communication.get(url, user.access_token, (error, response)=>{
+      if (error)
+        this.setState({response:"Failed to retrieve data during initialization"})
+      else
+      {
+        this.setState({categories:response.categories, countries:response.countries, cities:response.cities})
+
+      }  
+    })  
+
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
+    }
+
     this.getPermissionAsync();
   }
 
@@ -131,29 +155,29 @@ export default class AddChamberScreen extends ValidationComponent {
   componentWillMount(){
 
     
-    let user = this.props.navigation.getParam("user", null);
-    this.setState({user:user, user_id:user.userid})
+    // let user = this.props.navigation.getParam("user", null);
+    // this.setState({user:user, user_id:user.userid})
    
-    // Retrive initial data at once
-    let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
-    console.log(url)
-    Communication.get(url, user.access_token, (error, response)=>{
-      if (error)
-        this.setState({response:"Failed to retrieve data during initialization"})
-      else
-      {
-        this.setState({categories:response.categories, countries:response.countries, cities:response.cities})
+    // // Retrive initial data at once
+    // let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
+    // console.log(url)
+    // Communication.get(url, user.access_token, (error, response)=>{
+    //   if (error)
+    //     this.setState({response:"Failed to retrieve data during initialization"})
+    //   else
+    //   {
+    //     this.setState({categories:response.categories, countries:response.countries, cities:response.cities})
 
-      }  
-    })  
+    //   }  
+    // })  
 
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
-      this._getLocationAsync();
-    }
+    // if (Platform.OS === 'android' && !Constants.isDevice) {
+    //   this.setState({
+    //     errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+    //   });
+    // } else {
+    //   this._getLocationAsync();
+    // }
 
     //this.email.focus();
   }
