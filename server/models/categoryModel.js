@@ -8,7 +8,7 @@ var Category=()=>{
 
 Category.getAll=(result)=>{
 	
-	sql.query("SELECT * FROM category",[], 
+	sql.query("SELECT id, name, name as title FROM category",[], 
       function(err, res){
         console.log(this.sql);
         if(err) {

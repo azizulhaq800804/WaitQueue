@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, Platform } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 import {Config} from "../config"
 import {styles} from '../styles'
+import Category from "react-native-category";
+import {Communication} from "../components/communication"
 
 class SearchScreen extends Component {
   constructor(props) {
@@ -11,36 +16,87 @@ class SearchScreen extends Component {
     this.state = {
       loading: false,
       data: [],
-      page: 1,
+      page: 0,
       seed: 1,
       error: null,
       refreshing: false,
       hasScrolled: false,
-      search_str:""
+      search_str:"",
+      regiion:null, 
+      latitude:0, 
+      longitude:0,
+      category:null,
+      categories:[]
     };
+    
+  }
+
+  componentWillMount()
+  {
+    // Retrive initial data at once
+    let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
+    console.log(url)
+    Communication.get(url, "", (error, response)=>{
+      if (error)
+        this.setState({response:"Failed to retrieve data during initialization"})
+      else
+      {
+        this.setState({categories:response.categories})
+      }  
+    })  
+
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync((err,location)=>{
+        if(err) this.makeRemoteRequest() 
+        else this.setState({ location, latitude:location.coords.latitude, longitude:location.coords.longitude }, this.makeRemoteRequest);
+      });
+    }
   }
 
   updateSearch = search_str => {
     this.setState({ search_str });
   };
 
-  makeRemoteRequest = () => {
-    const { page, search_str } = this.state;
+  _getLocationAsync = async (callback) => {
     
-    //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    try{
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+        callback({}, null)
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      callback(null, location)
+    }
+    catch(err){console.log(err); callback(err, null)}  
+  };
+
+  
+
+  makeRemoteRequest = () => {
+     const { page, seed,search_str, latitude, longitude } = this.state;
+    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
     //let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_LOGIN + 
-    const url = `${Config.PROTOCOL}${Config.HOST}:${Config.PORT}${Config.SERVICE_SEARCH}?page=${page}&search_string=${search_str}`
-    this.setState({ loading: true });
+    const url = `${Config.PROTOCOL}${Config.HOST}:${Config.PORT}${Config.SERVICE_SEARCH}?page=${page}&search_string=${search_str}&latitude=${latitude}&longitude=${longitude}`
+    console.log(url)
+    this.setState({ loading: true});
     
     fetch(url)
       .then(res => res.json())
       .then(res => {
         this.setState({
-          data: page === 1 ? res.data : [...this.state.data, ...res.data],
+          data: page === 0 ? res.data : [...this.state.data, ...res.data],
           error: res.error || null,
           loading: false,
           refreshing: false
@@ -54,7 +110,7 @@ class SearchScreen extends Component {
   handleRefresh = () => {
     this.setState(
       {
-        page: 1,
+        page: 0,
         seed: this.state.seed + 1,
         refreshing: true
       },
@@ -120,10 +176,24 @@ class SearchScreen extends Component {
     );
   };
 
+  //func call when click item category
+  _itemChoose = (item)=> {
+     alert(item.title);
+  }
+ 
+
   render() {
-    let {data} = this.state
+    let {data, categories} = this.state
+    console.log(categories)
     return (
       <View> 
+        { categories.length > 0  &&
+          <Category
+            data={this.state.categories}    
+            itemSelected={(item) => this._itemChoose(item)}
+            itemText={'title'}  //set attribule of object show in item category
+          />
+        }
         <SearchBar
           placeholder="Type Here..."
           onChangeText={this.updateSearch}
@@ -153,7 +223,7 @@ class SearchScreen extends Component {
             onEndReachedThreshold={0.5}
             onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
             onScroll={this.onScroll}
-            //contentContainerStyle={{ paddingBottom: 30}}
+            contentContainerStyle={{ paddingBottom: 50}}
           />
         }  
       </View>  
@@ -162,6 +232,6 @@ class SearchScreen extends Component {
 }
 
 SearchScreen.navigationOptions = {
-  header: <Text style={{...styles.label, marginTop:'8%'}}>Search for a doctor</Text>
+  header: <Text style={{...styles.label, marginTop:'8%'}}>Search for a doctor/chamber</Text>
 };
 export default SearchScreen;

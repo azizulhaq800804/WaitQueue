@@ -12,9 +12,9 @@ import MyDatePicker from '../components/myDatePicker'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 import { NavigationEvents } from 'react-navigation';
 import ValidationComponent from 'react-native-form-validator';
-
 
 export default class AddChamberScreen extends ValidationComponent {
   
@@ -30,7 +30,8 @@ export default class AddChamberScreen extends ValidationComponent {
           doctor_name:"", user:null, category:1, 
           categories:[], city:1,cities:[], country:1, countries:[],
           phone_number:"", address:"", start_time: "", end_time: "", 
-          start_time:"9:00", end_time:"21:00", holiday:1, image:null, user_id:-1
+          start_time:"9:00", end_time:"21:00", holiday:1, image:null, user_id:-1,
+          location: null, errorMessage: null, latitude:0, longitude:0
         }
 
   submit(){
@@ -65,7 +66,7 @@ export default class AddChamberScreen extends ValidationComponent {
     //type field in image picker is 'image'
     // data.append('image',{...this.state.image})
     if(this.state.image)
-      data.append('photo',{name:"photo", type:'image/jpg', uri:this.state.image.uri})
+      data.append('image',{name:"photo", type:'image/jpg', uri:this.state.image.uri})
 
     let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_ADD_CHAMBER
     console.log(url)
@@ -104,10 +105,28 @@ export default class AddChamberScreen extends ValidationComponent {
     this.getPermissionAsync();
   }
 
-  navigationFocus(payload)
+  navigationFocus = (payload) =>
   {
+     let region = this.props.navigation.getParam("region", null);
+     if (region)
+       this.setState({location:region, latitude:region.latitude, longitude:region.longitude})
+     this.props.navigation.setParams('region', null)
 
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    console.log(location)
+    this.setState({ location, latitude:location.coords.latitude, longitude:location.coords.longitude });
+  };
+
 
   componentWillMount(){
 
@@ -127,6 +146,14 @@ export default class AddChamberScreen extends ValidationComponent {
 
       }  
     })  
+
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
+    }
 
     //this.email.focus();
   }
@@ -317,6 +344,12 @@ export default class AddChamberScreen extends ValidationComponent {
               )}
              </Picker>
 
+             <TouchableOpacity style={styles.button}
+                onPress={()=>{this.props.navigation.navigate("SelectLocation", {location:this.state.location})}}
+             >
+               <Text style={styles.labelButton}> Set Location</Text>
+             </TouchableOpacity>        
+
             <View style={styles.row}> 
               <Text style={styles.label}>Start Time</Text>
               <MyDatePicker onDateChange={this.onStartDateChange}/>
@@ -345,6 +378,8 @@ export default class AddChamberScreen extends ValidationComponent {
                  <Picker.Item  label="Thursday" value="Thursday" />
 
              </Picker>
+
+            
 
             <Text style={styles.label}>Pick Photo</Text>
 

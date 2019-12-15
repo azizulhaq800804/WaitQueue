@@ -10,6 +10,8 @@ import DashboardScreen from '../screens/DashboardScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUPScreen from '../screens/SignUPScreen';
 import AddChamberScreen from '../screens/AddChamberScreen';
+import SelectLocationScreen from '../screens/SelectLocationScreen';
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -61,7 +63,8 @@ const DashboardStack = createStackNavigator(
     Dashboard: DashboardScreen,
     Login: LoginScreen,
     SignUP: SignUPScreen,
-    AddChamber:AddChamberScreen
+    AddChamber:AddChamberScreen,
+    SelectLocation:SelectLocationScreen
   },
   config
 );

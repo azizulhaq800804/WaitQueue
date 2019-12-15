@@ -16,6 +16,7 @@ exports.add_chamber = function(req, res)
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
 	console.log(files)  
+	console.log(fields)
     if(err)
 	{ 
 	  	console.log(err)
@@ -23,10 +24,10 @@ exports.add_chamber = function(req, res)
 	  	res.json({result:0, message:"Failed to add chamber", code:0});
 	} 
 	let picture_name = null	
-	if( files.photo )
+	if( files.image )
 	{ 
 	  picture_name = `user_${fields.user_id}_${Date.now()}`
-	  var oldpath = files.photo.path;
+	  var oldpath = files.image.path;
       var newpath = `${config.uploadPath}${picture_name}` ;
       console.log("Renaming file "+oldpath + "To" + newpath)
       
@@ -66,7 +67,7 @@ exports.add_chamber = function(req, res)
     }        
    
     else{
-      chamberModel.addChamber(picture_name, fields, (err, result)=>{
+      chamberModel.addChamber(picture_name, "", fields, (err, result)=>{
 	    if(err)
 	      res.json({result:0, message:"Failed to add chamber", code:0});
 	    else
