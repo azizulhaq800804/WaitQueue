@@ -11,6 +11,7 @@ import LoginScreen from '../screens/LoginScreen';
 import SignUPScreen from '../screens/SignUPScreen';
 import AddChamberScreen from '../screens/AddChamberScreen';
 import SelectLocationScreen from '../screens/SelectLocationScreen';
+import ChamberDetailScreen from '../screens/ChamberDetailScreen';
 
 
 const config = Platform.select({
@@ -21,6 +22,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: SearchScreen,
+    ChamberDetail: ChamberDetailScreen
   },
   config
 );

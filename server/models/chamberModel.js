@@ -86,17 +86,19 @@ Chamber.searchChamber=function( params, result){
 
 Chamber.searchChamber=function( params, result){
   
-  
+  let {category} = params 
+  let category_cond = category ==0 ? "":` AND chamber.category_id=${category} `
   
   sql.query(" SELECT chamber.id as id, chamber.name as chamber_name, chamber.doctor_name as doctor_name, chamber.address, city.name as city, category.name as category, chamber.start_time, chamber.end_time, " +
             " chamber.holiday, chamber.number_of_person, chamber.picture_url as picture, chamber.thumbnail " +
             " FROM chamber LEFT JOIN city ON chamber.city_id = city.id " +
                            "LEFT JOIN category on chamber.category_id = category.id " +
-            " WHERE  (chamber.name like ? OR doctor_name LIKE ? OR address LIKE ? OR city.name like ? OR category.name LIKE ? )"+
+            " WHERE  (chamber.name like ? OR doctor_name LIKE ? OR address LIKE ? OR city.name like ? OR category.name LIKE ? )" +
+            category_cond +
             " ORDER BY ? - chamber.latitude,  ? - chamber.longitude ASC " +
             " LIMIT ?, 20",
             [  `%${params.search_string}%`, `%${params.search_string}%`, `%${params.search_string}%`, `%${params.search_string}%`, `%${params.search_string}%`, 
-            params.latitude, params.longitude, parseInt(params.page)]
+               params.latitude, params.longitude, parseInt(params.page)]
             , 
          function (err, res) {
            console.log(res)

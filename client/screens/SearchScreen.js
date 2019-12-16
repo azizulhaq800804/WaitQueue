@@ -8,6 +8,7 @@ import {Config} from "../config"
 import {styles} from '../styles'
 import Category from "react-native-category";
 import {Communication} from "../components/communication"
+import { NavigationEvents } from 'react-navigation';
 
 class SearchScreen extends Component {
   constructor(props) {
@@ -25,20 +26,19 @@ class SearchScreen extends Component {
       regiion:null, 
       latitude:0, 
       longitude:0,
-      category:null,
+      category:0,
       categories:[]
     };
     
   }
-
+  
   componentWillMount()
   {
    
 
   }
 
-  componentDidMount() {
-    
+  initialize = ()=>{
      // Retrive initial data at once
      let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_CAT_CITY_COUNTRY
      console.log(url)
@@ -61,11 +61,18 @@ class SearchScreen extends Component {
         else this.setState({ location, latitude:location.coords.latitude, longitude:location.coords.longitude }, this.makeRemoteRequest);
       });
     }
+
   }
 
-  updateSearch = search_str => {
-    this.setState({ search_str });
-  };
+  navigationFocus = ()=>{
+    // this.initialize()
+
+  }  
+  componentDidMount() {
+    this.initialize()    
+  }
+
+  
 
   _getLocationAsync = async (callback) => {
     
@@ -87,10 +94,10 @@ class SearchScreen extends Component {
   
 
   makeRemoteRequest = () => {
-     const { page, seed,search_str, latitude, longitude } = this.state;
+     const { page, seed,search_str, latitude, longitude, category } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
     //let url = Config.PROTOCOL + Config.HOST +":" + Config.PORT + Config.SERVICE_LOGIN + 
-    const url = `${Config.PROTOCOL}${Config.HOST}:${Config.PORT}${Config.SERVICE_SEARCH}?page=${page}&search_string=${search_str}&latitude=${latitude}&longitude=${longitude}`
+    const url = `${Config.PROTOCOL}${Config.HOST}:${Config.PORT}${Config.SERVICE_SEARCH}?page=${page}&search_string=${search_str}&latitude=${latitude}&longitude=${longitude}&category=${category}`
     console.log(url)
     this.setState({ loading: true});
     
@@ -180,20 +187,55 @@ class SearchScreen extends Component {
 
   //func call when click item category
   _itemChoose = (item)=> {
-     alert(item.title);
+
+      // make sure o is the id for the all category
+      item && item.id !=0 && this.setState(
+              {
+                page: 0,
+                seed: this.state.seed + 1,
+                refreshing: true,
+                category:item.id
+                
+              },
+              () => {
+                this.makeRemoteRequest();
+              }
+            ); 
   }
- 
+  
+  updateSearch = search_str => {
+    this.setState(
+      {
+        page: 0,
+        seed: this.state.seed + 1,
+        refreshing: true,
+        search_str
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+    
+       
+  };
+
+  showDetail = (item) => {
+    this.props.navigation.navigate("ChamberDetail", {chamber:item})
+  }
 
   render() {
     let {data, categories} = this.state
-    console.log(categories)
     return (
       <View> 
+        <NavigationEvents
+                onDidFocus={(payload) => this.navigationFocus(payload)}
+          /> 
         { categories.length > 0  &&
           <Category
             data={this.state.categories}    
             itemSelected={(item) => this._itemChoose(item)}
             itemText={'title'}  //set attribule of object show in item category
+            // indexSelected={this.state.category}
           />
         }
         <SearchBar
@@ -213,6 +255,7 @@ class SearchScreen extends Component {
                 leftAvatar={{source:{ uri: `${Config.PROTOCOL}${Config.HOST}:${Config.PORT}${Config.IMAGE_PATH}${item.thumbnail}` }}}
                 containerStyle={{ borderBottomWidth: 0 }}
                 chevron
+                onPress={() => this.showDetail(item)}
               />
             )}
             keyExtractor={item => item.id.toString()}
